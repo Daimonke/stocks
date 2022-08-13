@@ -12,14 +12,14 @@ export default async function handler(
   const { data }: AxiosResponse = await axios.get(
     `https://finnhub.io/api/v1/stock/profile2?symbol=${code}&token=${process.env.API_KEY}`
   );
-  if (checkIfObjEmpty(data)) {
-    return res.status(400).json({ error: "Company not found" });
+  if (isObjEmpty(data)) {
+    return res.status(404).json({ error: "Company not found" });
   }
 
   res.status(200).json(data);
 }
 
-const checkIfObjEmpty = (obj: { [key: string]: any }) => {
+const isObjEmpty = (obj: { [key: string]: any }) => {
   for (const key in obj) return false;
   return true;
 };
