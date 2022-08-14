@@ -7,7 +7,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { code } = req.query;
-  if (!code) return res.status(400).json({ error: "Missing code" });
+  if (!code) {
+    return res.status(400).json({ error: "Please enter a company code" });
+  }
 
   const { data }: AxiosResponse = await axios.get(
     `https://finnhub.io/api/v1/stock/profile2?symbol=${code}&token=${process.env.API_KEY}`
