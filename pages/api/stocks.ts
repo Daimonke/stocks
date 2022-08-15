@@ -1,8 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios, { AxiosResponse } from "axios";
-import con from "../../api_utils/mongoConnection";
-import Log from "../../api_utils/logSchema";
+import clientPromise from "../../api_utils/mongoConnection";
 
 type ChartData = {
   t: number[];
@@ -65,8 +63,9 @@ const logUserAction = async (
   Stock prices: ${JSON.stringify(stockPrices.c)}
   Date range:  ${starts} - ${ends}`);
 
-  const connection = await con();
-  await Log.create({
+  const connection = await clientPromise;
+  const collection = connection.db("stocks").collection("logs");
+  await collection.insertOne({
     companyName,
     stockPrices: stockPrices.c,
     dateRange: {
@@ -74,5 +73,5 @@ const logUserAction = async (
       ends,
     },
   });
-  await connection.disconnect();
+  await connection.close();
 };
