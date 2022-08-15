@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios, { AxiosResponse } from "axios";
-import clientPromise from "../../api_utils/mongoConnection";
+import { connectToDatabase } from "../../api_utils/mongoConnection";
 
 type ChartData = {
   t: number[];
@@ -63,8 +63,8 @@ const logUserAction = async (
   Stock prices: ${JSON.stringify(stockPrices.c)}
   Date range:  ${starts} - ${ends}`);
 
-  const connection = await clientPromise;
-  const collection = connection.db("stocks").collection("logs");
+  const connection = await connectToDatabase();
+  const collection = connection.db.collection("logs");
   await collection.insertOne({
     companyName,
     stockPrices: stockPrices.c,
