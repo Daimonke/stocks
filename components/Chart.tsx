@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import type { ChartData, ChartOptions } from "chart.js";
+import React from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -54,11 +53,7 @@ const Chart = ({ data }: Props) => {
       },
     ],
   };
-  return (
-    <div>
-      <Line data={dataForChart} options={ChartOptions} />
-    </div>
-  );
+  return <Line data={dataForChart} options={ChartOptions} />;
 };
 
 export default Chart;

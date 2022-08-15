@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../context/context";
+import { XIcon } from "@heroicons/react/outline";
 import Chart from "./Chart";
 
 export type ChartApiData = {
@@ -52,7 +53,7 @@ const StockPriceContainer = () => {
         onAnimationEnd={handleAnimation}
       >
         <button className="absolute left-4 top-4" onClick={handleClose}>
-          Back
+          <XIcon className="h-8 fill-sky-400 text-sky-400 rounded-full border-2 border-sky-400 p-1 hover:scale-110 transition-all" />
         </button>
         <h1 className=" text-2xl text-center mb-8 text-gray-200 max-w-[80%] mx-auto">
           <b>{ctx.searchResult?.name}</b> stock price history (
