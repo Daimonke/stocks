@@ -6,19 +6,23 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { code } = req.query;
-  if (!code) {
-    return res.status(400).json({ error: "Please enter a company code" });
-  }
+  try {
+    const { code } = req.query;
+    if (!code) {
+      return res.status(400).json({ error: "Please enter a company code" });
+    }
 
-  const { data }: AxiosResponse = await axios.get(
-    `https://finnhub.io/api/v1/stock/profile2?symbol=${code}&token=${process.env.API_KEY}`
-  );
-  if (isObjEmpty(data)) {
-    return res.status(404).json({ error: "Company not found" });
-  }
+    const { data }: AxiosResponse = await axios.get(
+      `https://finnhub.io/api/v1/stock/profile2?symbol=${code}&token=${process.env.API_KEY}`
+    );
+    if (isObjEmpty(data)) {
+      return res.status(404).json({ error: "Company not found" });
+    }
 
-  res.status(200).json(await data);
+    res.status(200).json(await data);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const isObjEmpty = (obj: { [key: string]: any }) => {
