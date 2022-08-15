@@ -74,6 +74,14 @@ a {
   --direction: -1;
 }
 
+.slideFromBottom {
+  animation: slideFromBottom 0.5s forwards;
+}
+
+.slideToBottom {
+  animation: slideToBottom 0.5s forwards;
+}
+
 @keyframes rotating {
   50% {
       transform: rotate(calc(180deg * var(--direction)));
@@ -84,6 +92,23 @@ a {
   }
 }
 
+@keyframes slideFromBottom {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideToBottom {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
 
 @media (prefers-color-scheme: dark) {
   html {

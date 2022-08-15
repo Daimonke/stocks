@@ -56,7 +56,7 @@ const SearchForm = (): JSX.Element => {
 
   return (
     <div
-      className="p-4 py-6 mt-4 bg-gray-500 rounded-lg shadow-black shadow-md"
+      className="p-4 py-6 bg-gray-500 rounded-lg shadow-black shadow-md"
       ref={parent}
     >
       <form
@@ -66,6 +66,7 @@ const SearchForm = (): JSX.Element => {
         <input
           type="text"
           onChange={handleCodeInput}
+          value={ctx.code}
           className="p-2 w-full rounded-lg bg-gray-900/50 shadow-black shadow-inner focus:outline-none focus:shadow-outline focus:bg-gray-900/60 placeholder:text-gray-400"
           placeholder="Enter company code"
         />
@@ -74,6 +75,7 @@ const SearchForm = (): JSX.Element => {
             <span className="text-blue-400 font-bold">Starts</span>
             <input
               onChange={(e) => ctx.setStarts(e.target.value)}
+              value={ctx.starts}
               type="date"
               name="start"
               className="w-full rounded-b-lg bg-transparent focus:outline-none uppercase flex justify-center text-center"
@@ -83,6 +85,7 @@ const SearchForm = (): JSX.Element => {
             <span className="text-blue-400 font-bold">Ends</span>
             <input
               onChange={(e) => ctx.setEnds(e.target.value)}
+              value={ctx.ends}
               type="date"
               name="start"
               className="w-full rounded-b-lg bg-transparent focus:outline-none uppercase flex justify-center text-center"

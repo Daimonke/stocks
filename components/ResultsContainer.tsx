@@ -14,7 +14,7 @@ const ResultsContainer = () => {
   }, [parent]);
 
   return (
-    <div ref={parent}>
+    <div ref={parent} className="my-4">
       <div>
         {ctx.searchResult && (
           <h1 className="border-b-white border-b-2 full-w text-white text-center my-4 text-2xl">
