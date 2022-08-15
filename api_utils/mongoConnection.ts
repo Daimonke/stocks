@@ -1,8 +1,8 @@
-import { MongoClient } from "mongodb";
-const uri = process.env.MONGO_URI as string;
-const client = new MongoClient(uri);
+import mongoose from "mongoose";
 
-const con = async () => {
-  return await client.connect();
-};
+const con = async () =>
+  mongoose.connect(process.env.MONGO_URI as string, {
+    dbName: "stocks",
+  });
+
 export default con;

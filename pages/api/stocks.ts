@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios, { AxiosResponse } from "axios";
 import con from "../../api_utils/mongoConnection";
+import Log from "../../api_utils/logSchema";
 
 type ChartData = {
   t: number[];
@@ -65,8 +66,7 @@ const logUserAction = async (
   Date range:  ${starts} - ${ends}`);
 
   const connection = await con();
-  const collection = connection.db("stocks").collection("logs");
-  await collection.insertOne({
+  await Log.create({
     companyName,
     stockPrices: stockPrices.c,
     dateRange: {
@@ -74,5 +74,5 @@ const logUserAction = async (
       ends,
     },
   });
-  await connection.close();
+  await connection.disconnect();
 };
