@@ -1,6 +1,17 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios, { AxiosResponse } from "axios";
+import { ChartApiData } from "../../components/StockPriceContainer";
+
+type ChartData = {
+  t: number[];
+  o: number[];
+  h: number[];
+  l: number[];
+  c: number[];
+  v: number[];
+  s: string;
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,7 +29,7 @@ export default async function handler(
   const start = new Date(String(starts)).getTime() / 1000;
   const end = new Date(String(ends)).getTime() / 1000;
 
-  const { data }: AxiosResponse = await axios.get(
+  const { data }: AxiosResponse<ChartData> = await axios.get(
     `https://finnhub.io/api/v1/stock/candle?symbol=${String(
       code
     ).toUpperCase()}&resolution=D&from=${start}&to=${end}&token=${
@@ -28,11 +39,25 @@ export default async function handler(
   if (isObjEmpty(data)) {
     return res.status(404).json({ error: "Data not found" });
   }
-
+  logUserAction(String(code).toUpperCase(), data, String(starts), String(ends));
   res.status(200).json(data);
 }
 
 const isObjEmpty = (obj: { [key: string]: any }) => {
   for (const key in obj) return false;
   return true;
+};
+
+// stockPrices type is ChartApiData without null option
+const logUserAction = (
+  companyName: string,
+  stockPrices: ChartData,
+  starts: string,
+  ends: string
+) => {
+  console.log(`
+  --USER ACTION--
+  Company name: ${companyName}
+  Stock prices: ${JSON.stringify(stockPrices.c)}
+  Date range:  ${starts} - ${ends}`);
 };

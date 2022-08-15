@@ -21,9 +21,10 @@ const StockPriceContainer = () => {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    console.log("FETCHING CHART");
     axios
-      .get(`api/stocks/?code=${ctx.code}&starts=${ctx.starts}&ends=${ctx.ends}`)
+      .get(
+        `api/stocks/?code=${ctx.code}&starts=${ctx.starts}&ends=${ctx.ends}&name=${ctx.searchResult?.name}`
+      )
       .then(({ data }) => {
         if (data.s !== "ok") {
           ctx.setSearchError("Data not found");
