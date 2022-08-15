@@ -26,6 +26,8 @@ type Context = {
   setLoading: (loading: boolean) => void;
   searchError: string;
   setSearchError: (searchError: string) => void;
+  showStocks: boolean;
+  setShowStocks: (showStocks: boolean) => void;
 };
 
 const AppContext = createContext<Context>({
@@ -41,6 +43,8 @@ const AppContext = createContext<Context>({
   setLoading: (loading) => {},
   searchError: "",
   setSearchError: (error) => {},
+  showStocks: false,
+  setShowStocks: (showStocks) => {},
 });
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
@@ -51,6 +55,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     useState<Context["searchResult"]>(null);
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
+  const [showStocks, setShowStocks] = useState(false);
   return (
     <AppContext.Provider
       value={{
@@ -66,6 +71,8 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         setLoading,
         searchError,
         setSearchError,
+        showStocks,
+        setShowStocks,
       }}
     >
       {children}

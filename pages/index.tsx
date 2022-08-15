@@ -1,12 +1,14 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import ResultsContainer from "../components/ResultsContainer";
 import SearchForm from "../components/SearchForm";
+import StockPriceContainer from "../components/StockPriceContainer";
+import { useAppContext } from "../context/context";
 
 const Home: NextPage = () => {
+  const ctx = useAppContext();
   return (
-    <section className="max-w-5xl m-auto mx-auto">
+    <section className="max-w-5xl my-4 mx-auto overflow-hidden">
       <Head>
         <title>Home</title>
         <meta name="description" content="Search of company stock prices" />
@@ -14,6 +16,7 @@ const Home: NextPage = () => {
       </Head>
       <SearchForm />
       <ResultsContainer />
+      {ctx.showStocks && <StockPriceContainer />}
     </section>
   );
 };
