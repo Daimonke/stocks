@@ -73,5 +73,4 @@ const logUserAction = async (
       ends,
     },
   });
-  await connection.close();
 };
