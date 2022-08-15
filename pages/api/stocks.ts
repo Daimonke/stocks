@@ -39,7 +39,7 @@ export default async function handler(
     if (isObjEmpty(data)) {
       return res.status(404).json({ error: "Data not found" });
     }
-    logUserAction(String(name), data, String(starts), String(ends));
+    await logUserAction(String(name), data, String(starts), String(ends));
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
