@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "../context/context";
 import { XIcon } from "@heroicons/react/outline";
 import Chart from "./Chart";
+import Loader from "./Loader";
 
 export type ChartApiData = {
   c: number[];
@@ -19,6 +20,7 @@ const StockPriceContainer = () => {
 
   const [chartData, setChartData] = useState<ChartApiData>(null);
   const [show, setShow] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
@@ -35,6 +37,9 @@ const StockPriceContainer = () => {
       .catch((err) => {
         ctx.setSearchError(err.message);
         ctx.setShowStocks(false);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [ctx.code, ctx.starts, ctx.ends, ctx]);
 
@@ -53,14 +58,22 @@ const StockPriceContainer = () => {
         }`}
         onAnimationEnd={handleAnimation}
       >
-        <button className="absolute left-4 top-4" onClick={handleClose}>
-          <XIcon className="h-8 fill-sky-400 text-sky-400 rounded-full border-2 border-sky-400 p-1 hover:scale-110 transition-all" />
-        </button>
-        <h1 className=" text-2xl text-center mb-8 text-gray-200 max-w-[80%] mx-auto">
-          <b>{ctx.searchResult?.name}</b> stock price history (
-          {ctx.searchResult?.currency})
-        </h1>
-        <Chart data={chartData} />
+        {loading ? (
+          <div className="mt-32">
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <button className="absolute left-4 top-4" onClick={handleClose}>
+              <XIcon className="h-8 fill-sky-400 text-sky-400 rounded-full border-2 border-sky-400 p-1 hover:scale-110 transition-all" />
+            </button>
+            <h1 className=" text-2xl text-center mb-8 text-gray-200 max-w-[80%] mx-auto">
+              <b>{ctx.searchResult?.name}</b> stock price history (
+              {ctx.searchResult?.currency})
+            </h1>
+            <Chart data={chartData} />
+          </>
+        )}
       </div>
     </div>
   );
