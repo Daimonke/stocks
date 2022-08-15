@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios, { AxiosResponse } from "axios";
-import { ChartApiData } from "../../components/StockPriceContainer";
+import con from "../../api_utils/mongoConnection";
 
 type ChartData = {
   t: number[];
@@ -48,13 +48,22 @@ const isObjEmpty = (obj: { [key: string]: any }) => {
   return true;
 };
 
-// stockPrices type is ChartApiData without null option
-const logUserAction = (
+const logUserAction = async (
   companyName: string,
   stockPrices: ChartData,
   starts: string,
   ends: string
 ) => {
+  const db = await con();
+  db.insertOne({
+    companyName,
+    stockPrices: stockPrices.c,
+    dateRange: {
+      starts,
+      ends,
+    },
+  });
+
   console.log(`
   --USER ACTION--
   Company name: ${companyName}
