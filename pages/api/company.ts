@@ -18,7 +18,7 @@ export default async function handler(
     return res.status(404).json({ error: "Company not found" });
   }
 
-  res.status(200).json(data);
+  res.status(200).json(await data);
 }
 
 const isObjEmpty = (obj: { [key: string]: any }) => {
