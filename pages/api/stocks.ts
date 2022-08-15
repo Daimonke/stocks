@@ -17,7 +17,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { code, starts, ends } = req.query;
+  const { code, starts, ends, name } = req.query;
 
   if (!starts || !ends || !code) {
     return res
@@ -39,8 +39,8 @@ export default async function handler(
   if (isObjEmpty(data)) {
     return res.status(404).json({ error: "Data not found" });
   }
-  logUserAction(String(code).toUpperCase(), data, String(starts), String(ends));
   res.status(200).json(data);
+  logUserAction(String(name), data, String(starts), String(ends));
 }
 
 const isObjEmpty = (obj: { [key: string]: any }) => {
@@ -54,8 +54,15 @@ const logUserAction = async (
   starts: string,
   ends: string
 ) => {
-  const db = await con();
-  db.insertOne({
+  console.log(`
+  --USER ACTION--
+  Company name: ${companyName}
+  Stock prices: ${JSON.stringify(stockPrices.c)}
+  Date range:  ${starts} - ${ends}`);
+
+  const connection = await con();
+  const collection = connection.db("stocks").collection("logs");
+  await collection.insertOne({
     companyName,
     stockPrices: stockPrices.c,
     dateRange: {
@@ -63,10 +70,5 @@ const logUserAction = async (
       ends,
     },
   });
-
-  console.log(`
-  --USER ACTION--
-  Company name: ${companyName}
-  Stock prices: ${JSON.stringify(stockPrices.c)}
-  Date range:  ${starts} - ${ends}`);
+  await connection.close();
 };

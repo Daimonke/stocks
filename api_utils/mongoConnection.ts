@@ -3,7 +3,6 @@ const uri = process.env.MONGO_URI as string;
 const client = new MongoClient(uri);
 
 const con = async () => {
-  client.connect();
-  return client.db("stocks").collection("logs");
+  return client.connect();
 };
 export default con;
